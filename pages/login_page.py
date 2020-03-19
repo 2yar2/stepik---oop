@@ -9,25 +9,16 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self):
-        assert self.browser.current_url.split("/")[-2] == 'login'
+        assert self.browser.current_url.find('/login') != -1, 'Incorrect url presented'
 
     def should_be_login_form(self):
-        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM)
+        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), 'Login form is not presented'
 
     def should_be_register_form(self):
-        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM)
+        assert self.is_element_present(*LoginPageLocators.REGISTRATION_FORM), 'Registration form is not presented'
 
     def register_new_user(self, email, password):
-        reg_email = self.browser.find_element(
-            *LoginPageLocators.REGISTER_EMAIL_INPUT
-        )
-        reg_email.send_keys(email)
-        reg_password = self.browser.find_element(
-            *LoginPageLocators.REGISTER_PASSWORD_INPUT
-        )
-        reg_password.send_keys(password)
-        reg_password_repeat = self.browser.find_element(
-            *LoginPageLocators.REGISTER_PASSWORD_INPUT_REPEAT
-        )
-        reg_password_repeat.send_keys(password)
-        self.browser.find_element(*LoginPageLocators.REGISTER_BUTTON).click()
+        self.browser.find_element(*LoginPageLocators.REGISTRATION_EMAIL_FIELD).send_keys(email)
+        self.browser.find_element(*LoginPageLocators.REGISTRATION_PASSWORD_FIELD).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.REGISTRATION_PASSWORD_CONFIRM_FIELD).send_keys(password)
+        self.browser.find_element(*LoginPageLocators.REGISTRATION_SUBMIT_BUTTON).click()
